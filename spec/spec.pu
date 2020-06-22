@@ -1,0 +1,42 @@
+@startuml
+title client and server communication
+
+activate Client
+Client -> BnodeApi : uploadFile
+
+note left
+IN:
+  file (binary)
+OUT:
+  
+end note
+
+activate BnodeApi
+
+BnodeApi -> BlockChain : divided File(Max 100kb)
+' BnodeApi -> BnodeApi : do No.6
+
+note left
+1.divid upload file.
+2.get divided file array.
+3.genarate random index array.
+4.divided file array is numbering random index.
+5.encrypt genarate random index array to string.
+6.save No.5 string in server.
+end note
+
+activate BlockChain
+
+return
+
+return
+
+deactivate BlockChain
+deactivate BnodeApi
+
+
+deactivate Client
+
+
+
+@enduml
