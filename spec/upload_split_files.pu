@@ -1,5 +1,5 @@
 @startuml
-title client and server communication
+title Upload File to BlockChain or Cloud
 
 activate Client
 Client -> BnodeApi : uploadFile
