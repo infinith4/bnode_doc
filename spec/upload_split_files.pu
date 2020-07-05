@@ -22,19 +22,28 @@ note right
 6.save No.5 string in server.
 end note
 
-
 BnodeApi -> BnodeApi : 1.divid upload file.
 BnodeApi -> BnodeApi : 2.get divided file array.
 BnodeApi -> BnodeApi : 3.genarate random index array.
 BnodeApi -> BnodeApi : 4.divided file array is numbering random index.
 BnodeApi -> BnodeApi : 5.encrypt genarate random index array to string.
 
-loop divided file array
-    BnodeApi -> BlockChain : upload Divided File(Max 100kb)
-    ' BnodeApi -> BnodeApi : do No.6
-    activate BlockChain
+alt upload to BlockChain
+  loop divided file array
+      BnodeApi -> BlockChain : upload Divided File(Max 100kb)
+      ' BnodeApi -> BnodeApi : do No.6
+      activate BlockChain
 
-    return
+      return
+  end
+else upload to Cloud
+  loop divided file array
+      BnodeApi -> BlockChain : upload Divided File(Max File size on Config file)
+      ' BnodeApi -> BnodeApi : do No.6
+      activate BlockChain
+
+      return
+  end
 end
 
 BnodeApi -> BnodeApi : 6.save No.5 string in server.
