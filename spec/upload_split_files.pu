@@ -5,10 +5,17 @@ activate Client
 Client -> BnodeApi : uploadFile
 
 note left
-IN:
-  file (binary)
-OUT:
-  
+Request:
+  multipart-formdata
+    file (binary)
+    privatekey_wif (string)
+    public_key_hex (string)
+    on_chain (boolean)
+Response:
+  code (int)
+  file_id (string)
+  encrypt_hex (string, encrypt random index list to hex)
+  tx_id_list (string of array)
 end note
 
 activate BnodeApi
@@ -38,9 +45,9 @@ alt upload to BlockChain
   end
 else upload to Cloud
   loop divided file array
-      BnodeApi -> BlockChain : upload Divided File(Max File size on Config file)
+      BnodeApi -> Cloud : upload Divided File(Max File size on Config file)
       ' BnodeApi -> BnodeApi : do No.6
-      activate BlockChain
+      activate Cloud
 
       return
   end
@@ -48,6 +55,13 @@ end
 
 BnodeApi -> BnodeApi : 6.save No.5 string in server.
 
+alt upload to BlockChain
+
+else upload to Cloud
+  BnodeApi -> BlockChain : 7.calculate file hash and write hash on BlockChain.
+  activate BlockChain
+  return txid
+end
 
 return
 
